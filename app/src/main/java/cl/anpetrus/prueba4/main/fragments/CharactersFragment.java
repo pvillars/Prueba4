@@ -10,8 +10,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import cl.anpetrus.prueba4.CharactersQuery;
 import cl.anpetrus.prueba4.R;
 import cl.anpetrus.prueba4.adapters.CharactersAdapter;
+import cl.anpetrus.prueba4.models.Character;
+import cl.anpetrus.prueba4.models.Wrapper;
+import cl.anpetrus.prueba4.models.WrapperData;
+import cl.anpetrus.prueba4.network.GetCharacters;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -19,6 +24,7 @@ import cl.anpetrus.prueba4.adapters.CharactersAdapter;
 public class CharactersFragment extends Fragment {
 
     private CharactersAdapter charactersAdapter;
+    private RecyclerView recyclerView;
 
 
     public CharactersFragment() {
@@ -43,14 +49,42 @@ public class CharactersFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        RecyclerView recyclerView = view.findViewById(R.id.charactersRv);
+        recyclerView = view.findViewById(R.id.charactersRv);
         recyclerView.setHasFixedSize(true);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        charactersAdapter = new CharactersAdapter(getContext());
-        recyclerView.setAdapter(charactersAdapter);
+        CharactersQuery spider = CharactersQuery
+                .Builder
+                .create()
+                .withOffset(0)
+                .withLimit(10)
+                .build();
+        new BackgroundUF().execute(spider);
 
+
+    }
+
+    private class BackgroundUF extends GetCharacters {
+
+        @Override
+        protected void onPreExecute() {
+
+        }
+
+        @Override
+        protected void onPostExecute(Wrapper<Character> wrapper) {
+            if(wrapper!=null){
+                //TextView textView = (TextView) findViewById(R.id.ufTv);
+                //textView.setText(String.valueOf(wrapper.getSerie()[0].getValor()));
+
+                WrapperData<Character> characterWrapperData = wrapper.getData();
+
+
+                charactersAdapter = new CharactersAdapter(getContext(),characterWrapperData.getResults());
+                recyclerView.setAdapter(charactersAdapter);
+            }
+        }
     }
 }

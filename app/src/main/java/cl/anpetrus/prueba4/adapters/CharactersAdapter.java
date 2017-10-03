@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import cl.anpetrus.prueba4.R;
@@ -21,13 +20,18 @@ import cl.anpetrus.prueba4.models.MarvelImage;
  * Created by USUARIO on 02-10-2017.
  */
 
-public class CharactersAdapter extends RecyclerView.Adapter<CharactersAdapter.ViewHolder>{
+public class CharactersAdapter extends RecyclerView.Adapter<CharactersAdapter.ViewHolder> {
 
-    private List<Character> characters = new ArrayList<>();
-
+    private List<Character> characters;
     private Context context;
 
-    public CharactersAdapter(Context context) {
+    private static CharcaterInteface charcaterInteface;
+   /* public static void load(Context context){
+        //charcaterInteface = context;
+    }*/
+
+    public CharactersAdapter(Context context, List<Character> characters) {
+        this.characters = characters;
         this.context = context;
     }
 
@@ -41,8 +45,8 @@ public class CharactersAdapter extends RecyclerView.Adapter<CharactersAdapter.Vi
     public void onBindViewHolder(ViewHolder holder, int position) {
 
         Character character = characters.get(position);
-        holder.name.setText(character.getName());
-        holder.description.setText(character.getDescription());
+        holder.name.setText(character.getName().toString());
+        holder.description.setText(character.getDescription().toString());
 
         Picasso.with(context)
                 .load(character.getThumbnail().getImageUrl(MarvelImage.Size.LANDSCAPE_XLARGE))
@@ -51,16 +55,37 @@ public class CharactersAdapter extends RecyclerView.Adapter<CharactersAdapter.Vi
 
     @Override
     public int getItemCount() {
-        return 0;
+        return characters.size();
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder{
+    static class ViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView name,description;
+        private TextView name, description;
         private ImageView thumbnail;
 
         public ViewHolder(View itemView) {
             super(itemView);
         }
     }
+
+   /* private class BackgroundUF extends GetCharacters {
+
+        @Override
+        protected void onPreExecute() {
+
+        }
+
+        @Override
+        protected void onPostExecute(Wrapper<Character> wrapper) {
+            if(wrapper!=null){
+                //TextView textView = (TextView) findViewById(R.id.ufTv);
+                //textView.setText(String.valueOf(wrapper.getSerie()[0].getValor()));
+
+                WrapperData<Character> characterWrapperData = wrapper.getData();
+                characters = characterWrapperData.getResults();
+
+                charcaterInteface.load();
+            }
+        }
+    }*/
 }

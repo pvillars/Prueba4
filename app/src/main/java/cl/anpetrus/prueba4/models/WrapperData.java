@@ -1,11 +1,14 @@
 package cl.anpetrus.prueba4.models;
 
-public class WrapperData {
+import java.util.ArrayList;
+import java.util.List;
+
+public class WrapperData<T> {
     private int total;
     private int offset;
     private int limit;
     private int count;
-    private WrapperDataResults[] results;
+    private List<T> results = new ArrayList<>();
 
     public int getTotal() {
         return this.total;
@@ -39,11 +42,8 @@ public class WrapperData {
         this.count = count;
     }
 
-    public WrapperDataResults[] getResults() {
+    public List<T> getResults() {
         return this.results;
     }
 
-    public void setResults(WrapperDataResults[] results) {
-        this.results = results;
-    }
 }

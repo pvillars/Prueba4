@@ -15,8 +15,8 @@
 
 package cl.anpetrus.prueba4;
 
- class TimeProvider {
-  long currentTimeMillis() {
+ public class TimeProvider {
+  public long currentTimeMillis() {
     return System.currentTimeMillis();
   }
 }

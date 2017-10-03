@@ -10,6 +10,7 @@ import okhttp3.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+
 /**
  * Created by USUARIO on 02-10-2017.
  */
@@ -18,8 +19,10 @@ public class CharacterInterceptor {
 
     public static final String BASE_URL = "https://gateway.marvel.com:443/v1/public/";
 
+
     public Characters get() {
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder()
+               // .addInterceptor(new AuthInterceptor())
                 .connectTimeout(60, TimeUnit.SECONDS)
                 .readTimeout(60, TimeUnit.SECONDS);
 

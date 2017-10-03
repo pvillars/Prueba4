@@ -22,27 +22,26 @@ import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
 
-class AuthInterceptor implements Interceptor {
+public class AuthInterceptor implements Interceptor {
+
   private static final String TIMESTAMP_KEY = "ts";
   private static final String HASH_KEY = "hash";
   private static final String APIKEY_KEY = "apikey";
 
-  private final String publicKey;
-  private final String privateKey;
+  private final String publicKey = "8b312824cae040a1358d8fc0d366e0e8";
+  private final String privateKey = "c56712a644f49ae21dc8950725254f4f4ebd2bc3";
   private final TimeProvider timeProvider;
   private final AuthHashGenerator authHashGenerator = new AuthHashGenerator();
 
-  AuthInterceptor(String publicKey, String privateKey, TimeProvider timeProvider) {
-    this.publicKey = publicKey;
-    this.privateKey = privateKey;
-    this.timeProvider = timeProvider;
+  public AuthInterceptor() {
+    this.timeProvider =  new TimeProvider();
   }
 
   @Override public Response intercept(Chain chain) throws IOException {
     String timestamp = String.valueOf(timeProvider.currentTimeMillis());
     String hash = null;
     try {
-      hash = authHashGenerator.generateHash(timestamp, publicKey, privateKey);
+      hash = authHashGenerator.generateHash(timestamp,publicKey,privateKey);
     } catch (MarvelApiException e) {
       e.printStackTrace();
     }

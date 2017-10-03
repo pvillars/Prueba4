@@ -1,8 +1,8 @@
 package cl.anpetrus.prueba4.models;
 
-public class Wrapper {
+public class Wrapper<T> {
     private int code;
-    private WrapperData data;
+    private WrapperData<T> data;
     private String etag;
     private String status;
 
@@ -14,13 +14,10 @@ public class Wrapper {
         this.code = code;
     }
 
-    public WrapperData getData() {
+    public WrapperData<T> getData() {
         return this.data;
     }
 
-    public void setData(WrapperData data) {
-        this.data = data;
-    }
 
     public String getEtag() {
         return this.etag;

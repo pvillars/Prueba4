@@ -18,11 +18,11 @@ package cl.anpetrus.prueba4;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-class AuthHashGenerator {
-  String generateHash(String timestamp, String publicKey, String privateKey)
+public class AuthHashGenerator {
+  public String generateHash(String timestamp, String publicKey, String privateKey)
       throws MarvelApiException {
     try {
-      String value = timestamp + privateKey + publicKey;
+      String value = timestamp + publicKey + privateKey;
       MessageDigest md5Encoder = MessageDigest.getInstance("MD5");
       byte[] md5Bytes = md5Encoder.digest(value.getBytes());
 
