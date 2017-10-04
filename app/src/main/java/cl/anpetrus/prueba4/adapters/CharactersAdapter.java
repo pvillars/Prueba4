@@ -15,6 +15,7 @@ import java.util.List;
 import cl.anpetrus.prueba4.R;
 import cl.anpetrus.prueba4.models.Character;
 import cl.anpetrus.prueba4.models.MarvelImage;
+import cl.anpetrus.prueba4.models.WrapperData;
 
 /**
  * Created by USUARIO on 02-10-2017.
@@ -29,6 +30,13 @@ public class CharactersAdapter extends RecyclerView.Adapter<CharactersAdapter.Vi
     public CharactersAdapter(Context context, List<Character> characters) {
         this.characters = characters;
         this.context = context;
+    }
+
+    public void update(WrapperData<Character> characterWrapperData){
+        //characters.clear();
+        characters.addAll(characterWrapperData.getResults());
+        notifyDataSetChanged();
+
     }
 
     @Override

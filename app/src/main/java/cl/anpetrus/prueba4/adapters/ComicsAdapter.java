@@ -15,6 +15,7 @@ import java.util.List;
 import cl.anpetrus.prueba4.R;
 import cl.anpetrus.prueba4.models.Comic;
 import cl.anpetrus.prueba4.models.MarvelImage;
+import cl.anpetrus.prueba4.models.WrapperData;
 
 /**
  * Created by USUARIO on 02-10-2017.
@@ -25,10 +26,16 @@ public class ComicsAdapter extends RecyclerView.Adapter<ComicsAdapter.ViewHolder
     private List<Comic> comics;
     private Context context;
 
-
     public ComicsAdapter(Context context, List<Comic> comics) {
         this.comics = comics;
         this.context = context;
+    }
+
+    public void update(WrapperData<Comic> comicWrapperData){
+        //characters.clear();
+        comics.addAll(comicWrapperData.getResults());
+        notifyDataSetChanged();
+
     }
 
     @Override

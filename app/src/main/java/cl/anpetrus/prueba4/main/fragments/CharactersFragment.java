@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,13 +26,16 @@ public class CharactersFragment extends Fragment {
 
     private CharactersAdapter charactersAdapter;
     private RecyclerView recyclerView;
+    private boolean pendingRequest = false;
+    private boolean firstEjecution = true;
+    private int totalElements = 0;
 
 
     public CharactersFragment() {
         // Required empty public constructor
     }
 
-    public static CharactersFragment newInstance(){
+    public static CharactersFragment newInstance() {
         CharactersFragment fragment = new CharactersFragment();
         return fragment;
     }
@@ -52,7 +56,7 @@ public class CharactersFragment extends Fragment {
         recyclerView = view.findViewById(R.id.charactersRv);
         recyclerView.setHasFixedSize(true);
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
 
         CharactersQuery spider = CharactersQuery
@@ -63,6 +67,30 @@ public class CharactersFragment extends Fragment {
                 .build();
         new BackgroundCharacters().execute(spider);
 
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int position = linearLayoutManager.findLastVisibleItemPosition();
+                int total = linearLayoutManager.getItemCount();
+                Log.d("SCROLL", "position: " + position + " total: " + total);
+                if (totalElements > total) {
+                    if (total - 4 < position) {
+                        if (!pendingRequest) {
+                            CharactersQuery spider = CharactersQuery
+                                    .Builder
+                                    .create()
+                                    .withOffset(total)
+                                    .withLimit(10)
+                                    .build();
+                            new BackgroundCharacters().execute(spider);
+                        }
+
+                    }
+                }
+            }
+        });
+
 
     }
 
@@ -70,16 +98,26 @@ public class CharactersFragment extends Fragment {
 
         @Override
         protected void onPreExecute() {
+            if (!firstEjecution)
+                pendingRequest = true;
 
         }
 
         @Override
         protected void onPostExecute(Wrapper<Character> wrapper) {
-            if(wrapper!=null){
+            if (wrapper != null) {
                 WrapperData<Character> characterWrapperData = wrapper.getData();
+                totalElements = wrapper.getData().getTotal();
+                if (firstEjecution) {
+                    charactersAdapter = new CharactersAdapter(getContext(), characterWrapperData.getResults());
+                    recyclerView.setAdapter(charactersAdapter);
+                    firstEjecution = false;
+                } else {
+                    charactersAdapter.update(characterWrapperData);
+                    pendingRequest = false;
+                }
 
-                charactersAdapter = new CharactersAdapter(getContext(),characterWrapperData.getResults());
-                recyclerView.setAdapter(charactersAdapter);
+
             }
         }
     }

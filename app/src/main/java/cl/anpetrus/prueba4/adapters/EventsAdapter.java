@@ -15,6 +15,7 @@ import java.util.List;
 import cl.anpetrus.prueba4.R;
 import cl.anpetrus.prueba4.models.Event;
 import cl.anpetrus.prueba4.models.MarvelImage;
+import cl.anpetrus.prueba4.models.WrapperData;
 
 /**
  * Created by USUARIO on 02-10-2017.
@@ -29,6 +30,13 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
     public EventsAdapter(Context context, List<Event> events) {
         this.events = events;
         this.context = context;
+    }
+
+    public void update(WrapperData<Event> eventWrapperData){
+        //characters.clear();
+        events.addAll(eventWrapperData.getResults());
+        notifyDataSetChanged();
+
     }
 
     @Override
