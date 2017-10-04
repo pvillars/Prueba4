@@ -13,45 +13,46 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import cl.anpetrus.prueba4.R;
-import cl.anpetrus.prueba4.models.Character;
+import cl.anpetrus.prueba4.models.Event;
 import cl.anpetrus.prueba4.models.MarvelImage;
 
 /**
  * Created by USUARIO on 02-10-2017.
  */
 
-public class CharactersAdapter extends RecyclerView.Adapter<CharactersAdapter.ViewHolder> {
+public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder> {
 
-    private List<Character> characters;
+    private List<Event> events;
     private Context context;
 
 
-    public CharactersAdapter(Context context, List<Character> characters) {
-        this.characters = characters;
+    public EventsAdapter(Context context, List<Event> events) {
+        this.events = events;
         this.context = context;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_character, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_event, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        Character character = characters.get(position);
-        holder.name.setText(character.getName().toString());
-        holder.description.setText(character.getDescription().toString());
+        Event event = events.get(position);
+        holder.name.setText(event.getTitle().toString());
+        if(event.getDescription()!=null)
+        holder.description.setText(event.getDescription().toString());
 
         Picasso.with(context)
-                .load(character.getThumbnail().getImageUrl(MarvelImage.Size.LANDSCAPE_XLARGE))
+                .load(event.getThumbnail().getImageUrl(MarvelImage.Size.LANDSCAPE_XLARGE))
                 .into(holder.thumbnail);
     }
 
     @Override
     public int getItemCount() {
-        return characters.size();
+        return events.size();
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {

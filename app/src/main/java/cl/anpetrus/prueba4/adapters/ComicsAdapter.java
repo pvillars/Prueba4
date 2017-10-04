@@ -13,45 +13,46 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import cl.anpetrus.prueba4.R;
-import cl.anpetrus.prueba4.models.Character;
+import cl.anpetrus.prueba4.models.Comic;
 import cl.anpetrus.prueba4.models.MarvelImage;
 
 /**
  * Created by USUARIO on 02-10-2017.
  */
 
-public class CharactersAdapter extends RecyclerView.Adapter<CharactersAdapter.ViewHolder> {
+public class ComicsAdapter extends RecyclerView.Adapter<ComicsAdapter.ViewHolder> {
 
-    private List<Character> characters;
+    private List<Comic> comics;
     private Context context;
 
 
-    public CharactersAdapter(Context context, List<Character> characters) {
-        this.characters = characters;
+    public ComicsAdapter(Context context, List<Comic> comics) {
+        this.comics = comics;
         this.context = context;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_character, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_comic, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        Character character = characters.get(position);
-        holder.name.setText(character.getName().toString());
-        holder.description.setText(character.getDescription().toString());
+        Comic comic = comics.get(position);
+        holder.name.setText(comic.getTitle().toString());
+        if(comic.getDescription()!=null)
+        holder.description.setText(comic.getDescription().toString());
 
         Picasso.with(context)
-                .load(character.getThumbnail().getImageUrl(MarvelImage.Size.LANDSCAPE_XLARGE))
+                .load(comic.getThumbnail().getImageUrl(MarvelImage.Size.LANDSCAPE_XLARGE))
                 .into(holder.thumbnail);
     }
 
     @Override
     public int getItemCount() {
-        return characters.size();
+        return comics.size();
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {

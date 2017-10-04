@@ -12,44 +12,41 @@ import android.view.ViewGroup;
 
 import cl.anpetrus.prueba4.CharactersQuery;
 import cl.anpetrus.prueba4.R;
-import cl.anpetrus.prueba4.adapters.CharactersAdapter;
-import cl.anpetrus.prueba4.models.Character;
+import cl.anpetrus.prueba4.adapters.EventsAdapter;
+import cl.anpetrus.prueba4.models.Event;
 import cl.anpetrus.prueba4.models.Wrapper;
 import cl.anpetrus.prueba4.models.WrapperData;
-import cl.anpetrus.prueba4.network.GetCharacters;
+import cl.anpetrus.prueba4.network.GetEvents;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CharactersFragment extends Fragment {
+public class EventsFragment extends Fragment {
 
-    private CharactersAdapter charactersAdapter;
+    private EventsAdapter eventsAdapter;
     private RecyclerView recyclerView;
 
-
-    public CharactersFragment() {
+    public EventsFragment() {
         // Required empty public constructor
     }
 
-    public static CharactersFragment newInstance(){
-        CharactersFragment fragment = new CharactersFragment();
+    public static EventsFragment newInstance(){
+        EventsFragment fragment = new EventsFragment();
         return fragment;
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_characters, container, false);
+        return inflater.inflate(R.layout.fragment_events, container, false);
     }
-
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        recyclerView = view.findViewById(R.id.charactersRv);
+        recyclerView = view.findViewById(R.id.eventsRv);
         recyclerView.setHasFixedSize(true);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
@@ -61,12 +58,12 @@ public class CharactersFragment extends Fragment {
                 .withOffset(0)
                 .withLimit(10)
                 .build();
-        new BackgroundCharacters().execute(spider);
+        new BackgroundEvents().execute(spider);
 
 
     }
 
-    private class BackgroundCharacters extends GetCharacters {
+    private class BackgroundEvents extends GetEvents {
 
         @Override
         protected void onPreExecute() {
@@ -74,13 +71,15 @@ public class CharactersFragment extends Fragment {
         }
 
         @Override
-        protected void onPostExecute(Wrapper<Character> wrapper) {
+        protected void onPostExecute(Wrapper<Event> wrapper) {
             if(wrapper!=null){
-                WrapperData<Character> characterWrapperData = wrapper.getData();
+                WrapperData<Event> eventWrapperData = wrapper.getData();
 
-                charactersAdapter = new CharactersAdapter(getContext(),characterWrapperData.getResults());
-                recyclerView.setAdapter(charactersAdapter);
+                eventsAdapter = new EventsAdapter(getContext(),eventWrapperData.getResults());
+                recyclerView.setAdapter(eventsAdapter);
             }
         }
     }
+
+
 }

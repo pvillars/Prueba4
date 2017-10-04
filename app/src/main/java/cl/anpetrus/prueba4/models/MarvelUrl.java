@@ -15,36 +15,19 @@
 
 package cl.anpetrus.prueba4.models;
 
+public class MarvelUrl {
+  private String type;
+private String url;
 
-public class Character {
-
-  private long id;
-  private String name,description,resourceUri;
-  private MarvelImage thumbnail;
-
-
-  public long getId() {
-    return id;
+  public String getType() {
+    return type;
   }
 
-  public String getName() {
-    return name;
+  public String getUrl() {
+    return url;
   }
 
-  public String getDescription() {
-    return description;
+  @Override public String toString() {
+    return "MarvelUrl{" + "type='" + type + '\'' + ", url='" + url + '\'' + '}';
   }
-
-  public String getResourceUri() {
-    return resourceUri;
-  }
-
-
-  public MarvelImage getThumbnail() {
-    return thumbnail;
-  }
-
-
-
-
 }

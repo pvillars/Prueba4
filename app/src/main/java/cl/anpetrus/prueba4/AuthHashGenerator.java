@@ -22,7 +22,7 @@ public class AuthHashGenerator {
   public String generateHash(String timestamp, String publicKey, String privateKey)
       throws MarvelApiException {
     try {
-      String value = timestamp + publicKey + privateKey;
+      String value = timestamp + privateKey + publicKey;
       MessageDigest md5Encoder = MessageDigest.getInstance("MD5");
       byte[] md5Bytes = md5Encoder.digest(value.getBytes());
 

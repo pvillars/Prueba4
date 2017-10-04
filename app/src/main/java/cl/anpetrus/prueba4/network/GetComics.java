@@ -11,7 +11,7 @@ import cl.anpetrus.prueba4.AuthHashGenerator;
 import cl.anpetrus.prueba4.CharactersQuery;
 import cl.anpetrus.prueba4.MarvelApiException;
 import cl.anpetrus.prueba4.TimeProvider;
-import cl.anpetrus.prueba4.models.Character;
+import cl.anpetrus.prueba4.models.Comic;
 import cl.anpetrus.prueba4.models.Wrapper;
 import retrofit2.Call;
 import retrofit2.Response;
@@ -20,12 +20,12 @@ import retrofit2.Response;
  * Created by USUARIO on 02-10-2017.
  */
 
-public class GetCharacters extends AsyncTask<CharactersQuery, Integer, Wrapper<Character>> {
+public class GetComics extends AsyncTask<CharactersQuery, Integer, Wrapper<Comic>> {
 
     @Override
     protected Wrapper doInBackground(CharactersQuery... charactersQueries) {
 
-        Characters characters = new CharacterInterceptor().get();
+        Comics comics = new ComicInterceptor().get();
 
         String publicKey = Auth.PUBLIC_KEY;
         String privateKey = Auth.PRIVATE_KEY;
@@ -44,10 +44,10 @@ public class GetCharacters extends AsyncTask<CharactersQuery, Integer, Wrapper<C
 
         Map<String, Object> queryAsMap = charactersQueries[0].toMap();
 
-        Call<Wrapper<Character>> callCharacters = characters.characters(queryAsMap,authMap);
+        Call<Wrapper<Comic>> callComics = comics.comics(queryAsMap,authMap);
 
         try{
-            Response<Wrapper<Character>> response = callCharacters.execute();
+            Response<Wrapper<Comic>> response = callComics.execute();
             if(200==response.code() && response.isSuccessful()){
                 return response.body();
             }

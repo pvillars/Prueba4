@@ -10,7 +10,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import cl.anpetrus.prueba4.main.fragments.CharactersFragment;
 import cl.anpetrus.prueba4.main.fragments.ComicsFragment;
-import cl.anpetrus.prueba4.main.fragments.SeriesFragment;
+import cl.anpetrus.prueba4.main.fragments.EventsFragment;
 
 /**
  * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
@@ -30,7 +30,7 @@ public class SectionsPagerAdapters extends FragmentPagerAdapter {
                 case 1:
                     return ComicsFragment.newInstance();
                 case 2:
-                    return SeriesFragment.newInstance();
+                    return EventsFragment.newInstance();
             }
             return CharactersFragment.newInstance();
         }
@@ -49,7 +49,7 @@ public class SectionsPagerAdapters extends FragmentPagerAdapter {
                 case 1:
                     return "Comics";
                 case 2:
-                    return "Series";
+                    return "Eventos";
             }
             return null;
         }
