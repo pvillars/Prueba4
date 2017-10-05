@@ -3,7 +3,7 @@
     android:id="@+id/reloadSr"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="cl.anpetrus.prueba4.main.fragments.ComicsFragment">
+    tools:context=".views.main.fragments.ComicsFragment">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/comicsRv"

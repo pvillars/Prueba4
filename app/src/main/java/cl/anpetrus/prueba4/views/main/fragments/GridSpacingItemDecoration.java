@@ -1,4 +1,4 @@
-package cl.anpetrus.prueba4.main.fragments;
+package cl.anpetrus.prueba4.views.main.fragments;
 
 import android.content.res.Resources;
 import android.graphics.Rect;

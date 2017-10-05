@@ -1,4 +1,4 @@
-package cl.anpetrus.prueba4.main;
+package cl.anpetrus.prueba4.views.main;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;

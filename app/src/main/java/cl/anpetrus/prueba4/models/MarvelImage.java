@@ -16,7 +16,9 @@
 package cl.anpetrus.prueba4.models;
 
 
-public class MarvelImage {
+import java.io.Serializable;
+
+public class MarvelImage implements Serializable{
   private static final String SEPARATOR = "/";
   private static final String DOT = ".";
   private String path,extension;
@@ -41,7 +43,7 @@ public class MarvelImage {
     return "MarvelImage{" + "path='" + path + '\'' + ", extension='" + extension + '\'' + '}';
   }
 
-  public enum Size {
+  public enum Size implements Serializable {
     /** 50x75px */
     PORTRAIT_SMALL("portrait_small"),
     /** 100x150px */

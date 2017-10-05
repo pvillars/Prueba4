@@ -8,9 +8,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import cl.anpetrus.prueba4.main.fragments.CharactersFragment;
-import cl.anpetrus.prueba4.main.fragments.ComicsFragment;
-import cl.anpetrus.prueba4.main.fragments.EventsFragment;
+import cl.anpetrus.prueba4.views.main.fragments.CharactersFragment;
+import cl.anpetrus.prueba4.views.main.fragments.ComicsFragment;
+import cl.anpetrus.prueba4.views.main.fragments.EventsFragment;
 
 /**
  * A {@link FragmentPagerAdapter} that returns a fragment corresponding to

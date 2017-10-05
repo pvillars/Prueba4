@@ -13,6 +13,7 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import cl.anpetrus.prueba4.R;
+import cl.anpetrus.prueba4.listeners.ActionFragmentListener;
 import cl.anpetrus.prueba4.models.Event;
 import cl.anpetrus.prueba4.models.MarvelImage;
 import cl.anpetrus.prueba4.models.WrapperData;
@@ -25,11 +26,13 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
 
     private List<Event> events;
     private Context context;
+    private ActionFragmentListener actionFragmentListener;
 
 
-    public EventsAdapter(Context context, List<Event> events) {
+    public EventsAdapter(Context context, List<Event> events, ActionFragmentListener actionFragmentListener) {
         this.events = events;
         this.context = context;
+        this.actionFragmentListener = actionFragmentListener;
     }
 
     public void update(WrapperData<Event> eventWrapperData){
@@ -46,16 +49,23 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
 
-        Event event = events.get(position);
+        final Event event = events.get(position);
         holder.name.setText(event.getTitle().toString());
-        if(event.getDescription()!=null)
-        holder.description.setText(event.getDescription().toString());
-
+        if(event.getDescription()!=null) {
+            holder.description.setText(event.getDescription().toString());
+        }
         Picasso.with(context)
                 .load(event.getThumbnail().getImageUrl(MarvelImage.Size.LANDSCAPE_XLARGE))
                 .into(holder.thumbnail);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                actionFragmentListener.clicked(event);
+            }
+        });
     }
 
     @Override
@@ -75,4 +85,6 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
             thumbnail = itemView.findViewById(R.id.imageListIv);
         }
     }
+
+
 }

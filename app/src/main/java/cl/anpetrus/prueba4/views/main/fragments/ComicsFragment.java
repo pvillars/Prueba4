@@ -1,4 +1,4 @@
-package cl.anpetrus.prueba4.main.fragments;
+package cl.anpetrus.prueba4.views.main.fragments;
 
 
 import android.os.Bundle;
@@ -13,30 +13,30 @@ import android.view.ViewGroup;
 
 import cl.anpetrus.prueba4.CharactersQuery;
 import cl.anpetrus.prueba4.R;
-import cl.anpetrus.prueba4.adapters.CharactersAdapter;
-import cl.anpetrus.prueba4.models.Character;
+import cl.anpetrus.prueba4.adapters.ComicsAdapter;
+import cl.anpetrus.prueba4.models.Comic;
 import cl.anpetrus.prueba4.models.Wrapper;
 import cl.anpetrus.prueba4.models.WrapperData;
-import cl.anpetrus.prueba4.network.GetCharacters;
+import cl.anpetrus.prueba4.network.GetComics;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CharactersFragment extends Fragment {
+public class ComicsFragment extends Fragment {
 
-    private CharactersAdapter charactersAdapter;
+    private ComicsAdapter comicsAdapter;
     private RecyclerView recyclerView;
+    private LinearLayoutManager linearLayoutManager;
     private boolean pendingRequest = false;
     private boolean firstEjecution = true;
     private int totalElements = 0;
 
-
-    public CharactersFragment() {
+    public ComicsFragment() {
         // Required empty public constructor
     }
 
-    public static CharactersFragment newInstance() {
-        CharactersFragment fragment = new CharactersFragment();
+    public static ComicsFragment newInstance() {
+        ComicsFragment fragment = new ComicsFragment();
         return fragment;
     }
 
@@ -45,18 +45,17 @@ public class CharactersFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_characters, container, false);
+        return inflater.inflate(R.layout.fragment_comics, container, false);
     }
-
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        recyclerView = view.findViewById(R.id.charactersRv);
+        recyclerView = view.findViewById(R.id.comicsRv);
         recyclerView.setHasFixedSize(true);
 
-        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
 
         CharactersQuery spider = CharactersQuery
@@ -65,7 +64,7 @@ public class CharactersFragment extends Fragment {
                 .withOffset(0)
                 .withLimit(10)
                 .build();
-        new BackgroundCharacters().execute(spider);
+        new BackgroundComics().execute(spider);
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -77,13 +76,14 @@ public class CharactersFragment extends Fragment {
                 if (totalElements > total) {
                     if (total - 4 < position) {
                         if (!pendingRequest) {
+                            Log.d("SCROLL", "LLAMNDO!!");
                             CharactersQuery spider = CharactersQuery
                                     .Builder
                                     .create()
                                     .withOffset(total)
                                     .withLimit(10)
                                     .build();
-                            new BackgroundCharacters().execute(spider);
+                            new BackgroundComics().execute(spider);
                         }
 
                     }
@@ -94,31 +94,29 @@ public class CharactersFragment extends Fragment {
 
     }
 
-    private class BackgroundCharacters extends GetCharacters {
+    private class BackgroundComics extends GetComics {
 
         @Override
         protected void onPreExecute() {
             if (!firstEjecution)
                 pendingRequest = true;
-
         }
 
         @Override
-        protected void onPostExecute(Wrapper<Character> wrapper) {
+        protected void onPostExecute(Wrapper<Comic> wrapper) {
             if (wrapper != null) {
-                WrapperData<Character> characterWrapperData = wrapper.getData();
+                WrapperData<Comic> comicWrapperData = wrapper.getData();
                 totalElements = wrapper.getData().getTotal();
                 if (firstEjecution) {
-                    charactersAdapter = new CharactersAdapter(getContext(), characterWrapperData.getResults());
-                    recyclerView.setAdapter(charactersAdapter);
+                    comicsAdapter = new ComicsAdapter(getContext(), comicWrapperData.getResults());
+                    recyclerView.setAdapter(comicsAdapter);
                     firstEjecution = false;
                 } else {
-                    charactersAdapter.update(characterWrapperData);
+                    comicsAdapter.update(comicWrapperData);
                     pendingRequest = false;
                 }
-
-
             }
         }
     }
+
 }
