@@ -3,6 +3,7 @@
     android:id="@+id/reloadSr"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/black"
     tools:context="cl.anpetrus.prueba4.main.fragments.ComicsFragment">
 
     <android.support.v7.widget.RecyclerView
