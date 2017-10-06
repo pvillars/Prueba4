@@ -30,12 +30,12 @@ public class EventActivity extends AppCompatActivity {
     public final static String KEY_EVENT = "cl.anpetrus.prueba3.views.events.EventActivity.KEY_EVENT";
     public final static String KEY_NAME = "cl.anpetrus.prueba3.views.events.EventActivity.KEY_NAME";
 
-  //  private EventValidator validator;
+    //  private EventValidator validator;
     private ImageView image;
     private TextView name, description, date, timeStart;
     private FloatingActionButton editFab;
     private String keyEvent;
-  //  private LoadingFragment loadingFragment;
+    //  private LoadingFragment loadingFragment;
     private Toolbar toolbar;
     private String imageUrl;
 
@@ -50,6 +50,7 @@ public class EventActivity extends AppCompatActivity {
         final Event event = (Event) getIntent().getSerializableExtra(KEY_EVENT);
 
         getSupportActionBar().setTitle(event.getTitle());
+        //getSupportActionBar().setLogo(R.mipmap.ic_keyboard_backspace_white_24dp);
 
         Toast.makeText(this, event.getTitle(), Toast.LENGTH_SHORT).show();
 
@@ -61,7 +62,15 @@ public class EventActivity extends AppCompatActivity {
                 .load(event.getThumbnail().getImageUrl(MarvelImage.Size.LANDSCAPE_INCREDIBLE))
                 .into(image);
 
-        String dateStr = new UtilDate(new UtilDate().toDate(event.getStart()),"MMMM d, yyyy", Locale.ENGLISH).toString();
+        String dateStr = "";
+
+        if (event.getStart() != null)
+            dateStr = new UtilDate(event.getStart(), "MMMM d, yyyy", Locale.ENGLISH).toString();
+        if (event.getStart() != null && event.getEnd() != null)
+            dateStr += " - ";
+        if (event.getEnd() != null)
+            dateStr += new UtilDate(event.getEnd(), "MMMM d, yyyy", Locale.ENGLISH).toString();
+
         date.setText(dateStr);
 
         description.setText(event.getDescription());
@@ -77,7 +86,7 @@ public class EventActivity extends AppCompatActivity {
                 image.buildDrawingCache();
                 Bitmap imageBitmap = image.getDrawingCache();
                 Bundle extras = new Bundle();
-                extras.putParcelable(ImageActivity.KEY_THUMBS_IMAGE, UtilImage.getResizedBitmap(imageBitmap,100));
+                extras.putParcelable(ImageActivity.KEY_THUMBS_IMAGE, UtilImage.getResizedBitmap(imageBitmap, 100));
                 intent.putExtras(extras);
 
                 startActivity(intent);
@@ -92,8 +101,6 @@ public class EventActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
-
-
 
 
     }
@@ -121,7 +128,7 @@ public class EventActivity extends AppCompatActivity {
                     scrollRange = appBarLayout.getTotalScrollRange();
                 }
 
-                Log.d("SCROLLL","scrollRange: "+scrollRange+" verticalOffset: "+verticalOffset);
+                Log.d("SCROLLL", "scrollRange: " + scrollRange + " verticalOffset: " + verticalOffset);
                 if (scrollRange + verticalOffset == 0) {
                     collapsingToolbar.setTitle(getString(R.string.app_name));
                     isShow = true;

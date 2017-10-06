@@ -39,6 +39,12 @@ public class UtilDate {
         this.format = format;
         this.locale = locale;
     }
+
+    public UtilDate(String dateS,String format, Locale locale) {
+        this.date = new UtilDate().toDate(dateS);
+        this.format = format;
+        this.locale = locale;
+    }
     public UtilDate(Date date) {
         this.date = date;
     }
