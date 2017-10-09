@@ -4,7 +4,8 @@ package cl.anpetrus.prueba4.views.main.fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -29,6 +30,7 @@ public class CharactersFragment extends Fragment {
     private boolean pendingRequest = false;
     private boolean firstEjecution = true;
     private int totalElements = 0;
+    private GridLayoutManager mLayoutManager;
 
 
     public CharactersFragment() {
@@ -53,17 +55,22 @@ public class CharactersFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        totalElements = 0;
+        firstEjecution = true;
+
         recyclerView = view.findViewById(R.id.charactersRv);
         recyclerView.setHasFixedSize(true);
 
-        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(linearLayoutManager);
+        mLayoutManager = new GridLayoutManager(getContext(), 3);
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.addItemDecoration(new GridSpacingItemDecoration(3, GridSpacingItemDecoration.dpToPx(getResources(),1), true));
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
 
         CharactersQuery spider = CharactersQuery
                 .Builder
                 .create()
                 .withOffset(0)
-                .withLimit(10)
+                .withLimit(20)
                 .build();
         new BackgroundCharacters().execute(spider);
 
@@ -71,17 +78,17 @@ public class CharactersFragment extends Fragment {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                int position = linearLayoutManager.findLastVisibleItemPosition();
-                int total = linearLayoutManager.getItemCount();
+                int position = mLayoutManager.findLastVisibleItemPosition();
+                int total = mLayoutManager.getItemCount();
                 Log.d("SCROLL", "position: " + position + " total: " + total);
                 if (totalElements > total) {
-                    if (total - 4 < position) {
+                    if (total - 10 < position) {
                         if (!pendingRequest) {
                             CharactersQuery spider = CharactersQuery
                                     .Builder
                                     .create()
                                     .withOffset(total)
-                                    .withLimit(10)
+                                    .withLimit(20)
                                     .build();
                             new BackgroundCharacters().execute(spider);
                         }

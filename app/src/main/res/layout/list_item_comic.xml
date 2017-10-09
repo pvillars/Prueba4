@@ -18,7 +18,6 @@
         android:layout_height="120dp"
         android:background="@drawable/side_nav_bar"
         android:scaleType="centerCrop"
-        android:src="@mipmap/choose_image"
         />
 
     <ImageView

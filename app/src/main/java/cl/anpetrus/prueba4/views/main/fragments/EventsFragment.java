@@ -12,7 +12,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import cl.anpetrus.prueba4.CharactersQuery;
 import cl.anpetrus.prueba4.R;
@@ -63,11 +62,6 @@ public class EventsFragment extends Fragment implements ActionFragmentListener{
         return inflater.inflate(R.layout.fragment_events, container, false);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        Toast.makeText(getContext(), "Resume", Toast.LENGTH_SHORT).show();
-    }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -84,12 +78,11 @@ public class EventsFragment extends Fragment implements ActionFragmentListener{
         recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, GridSpacingItemDecoration.dpToPx(getResources(),4), true));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        Toast.makeText(getContext(), "Created", Toast.LENGTH_SHORT).show();
         CharactersQuery spider = CharactersQuery
                 .Builder
                 .create()
                 .withOffset(0)
-                .withLimit(10)
+                .withLimit(16)
                 .build();
         new BackgroundEvents().execute(spider);
 
@@ -102,14 +95,14 @@ public class EventsFragment extends Fragment implements ActionFragmentListener{
                 int total = mLayoutManager.getItemCount();
                 Log.d("SCROLL", "position: " + position + " total: " + total);
                 if (totalElements > total) {
-                    if (total - 4 < position) {
+                    if (total - 6 < position) {
                         if (!pendingRequest) {
                             Log.d("SCROLL", "LLAMNDO!!");
                             CharactersQuery spider = CharactersQuery
                                     .Builder
                                     .create()
                                     .withOffset(total)
-                                    .withLimit(10)
+                                    .withLimit(16)
                                     .build();
                             new BackgroundEvents().execute(spider);
                         }

@@ -27,8 +27,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="280dp"
                 android:layout_gravity="center"
-                android:scaleType="centerCrop"
-                android:src="@mipmap/choose_image" />
+                android:scaleType="centerCrop" />
 
             <ImageView
                 android:layout_width="match_parent"

@@ -16,8 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:background="@drawable/side_nav_bar"
-            android:scaleType="centerCrop"
-            android:src="@mipmap/choose_image" />
+            android:scaleType="centerCrop" />
 
         <ImageView
             android:layout_width="match_parent"

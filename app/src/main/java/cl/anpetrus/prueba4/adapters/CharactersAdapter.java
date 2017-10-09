@@ -50,7 +50,6 @@ public class CharactersAdapter extends RecyclerView.Adapter<CharactersAdapter.Vi
 
         Character character = characters.get(position);
         holder.name.setText(character.getName().toString());
-        holder.description.setText(character.getDescription().toString());
 
         Picasso.with(context)
                 .load(character.getThumbnail().getImageUrl(MarvelImage.Size.LANDSCAPE_XLARGE))
@@ -64,13 +63,12 @@ public class CharactersAdapter extends RecyclerView.Adapter<CharactersAdapter.Vi
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView name, description;
+        private TextView name;
         private ImageView thumbnail;
 
         public ViewHolder(View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.nameListTv);
-            description = itemView.findViewById(R.id.descriptionListTv);
             thumbnail = itemView.findViewById(R.id.imageListIv);
         }
     }
