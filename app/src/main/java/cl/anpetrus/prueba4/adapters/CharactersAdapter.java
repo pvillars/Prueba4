@@ -13,6 +13,7 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import cl.anpetrus.prueba4.R;
+import cl.anpetrus.prueba4.listeners.ActionFragmentListener;
 import cl.anpetrus.prueba4.models.Character;
 import cl.anpetrus.prueba4.models.MarvelImage;
 import cl.anpetrus.prueba4.models.WrapperData;
@@ -25,11 +26,12 @@ public class CharactersAdapter extends RecyclerView.Adapter<CharactersAdapter.Vi
 
     private List<Character> characters;
     private Context context;
+    private ActionFragmentListener actionFragmentListener;
 
-
-    public CharactersAdapter(Context context, List<Character> characters) {
+    public CharactersAdapter(Context context, List<Character> characters, ActionFragmentListener actionFragmentListener) {
         this.characters = characters;
         this.context = context;
+        this.actionFragmentListener = actionFragmentListener;
     }
 
     public void update(WrapperData<Character> characterWrapperData){
@@ -48,12 +50,21 @@ public class CharactersAdapter extends RecyclerView.Adapter<CharactersAdapter.Vi
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        Character character = characters.get(position);
+
+
+        final Character character = characters.get(position);
         holder.name.setText(character.getName().toString());
 
         Picasso.with(context)
                 .load(character.getThumbnail().getImageUrl(MarvelImage.Size.LANDSCAPE_XLARGE))
                 .into(holder.thumbnail);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                actionFragmentListener.clicked(character);
+            }
+        });
     }
 
     @Override

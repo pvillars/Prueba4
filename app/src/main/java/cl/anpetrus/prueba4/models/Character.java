@@ -16,7 +16,9 @@
 package cl.anpetrus.prueba4.models;
 
 
-public class Character {
+import java.io.Serializable;
+
+public class Character implements Serializable{
 
   private long id;
   private String name,description,resourceUri;

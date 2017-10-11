@@ -28,6 +28,10 @@
         <activity
             android:name=".views.main.data.ImageActivity"
             android:label="@string/title_activity_image"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".views.main.data.CharacterActivity"
+            android:label="@string/title_activity_character"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

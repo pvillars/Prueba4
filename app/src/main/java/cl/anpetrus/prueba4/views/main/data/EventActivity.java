@@ -13,7 +13,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -27,17 +26,11 @@ import cl.anpetrus.prueba4.models.MarvelImage;
 
 public class EventActivity extends AppCompatActivity {
 
-    public final static String KEY_EVENT = "cl.anpetrus.prueba3.views.events.EventActivity.KEY_EVENT";
-    public final static String KEY_NAME = "cl.anpetrus.prueba3.views.events.EventActivity.KEY_NAME";
+    public final static String KEY_EVENT = "cl.anpetrus.prueba4.views.main.data.EventActivity.KEY_EVENT";
 
-    //  private EventValidator validator;
     private ImageView image;
-    private TextView name, description, date, timeStart;
-    private FloatingActionButton editFab;
-    private String keyEvent;
-    //  private LoadingFragment loadingFragment;
-    private Toolbar toolbar;
-    private String imageUrl;
+    private TextView  description, date;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +45,6 @@ public class EventActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(event.getTitle());
         //getSupportActionBar().setLogo(R.mipmap.ic_keyboard_backspace_white_24dp);
 
-        Toast.makeText(this, event.getTitle(), Toast.LENGTH_SHORT).show();
 
         image = (ImageView) findViewById(R.id.detailImageIv);
         date = (TextView) findViewById(R.id.eventDateTv);

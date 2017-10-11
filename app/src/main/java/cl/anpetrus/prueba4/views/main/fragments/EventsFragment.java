@@ -114,9 +114,9 @@ public class EventsFragment extends Fragment implements ActionFragmentListener{
     }
 
     @Override
-    public void clicked(Event event) {
+    public void clicked(Object object) {
         Intent intent = new Intent(getContext(), EventActivity.class);
-        intent.putExtra(EventActivity.KEY_EVENT,event);
+        intent.putExtra(EventActivity.KEY_EVENT,(Event) object);
         startActivity(intent);
 
     }

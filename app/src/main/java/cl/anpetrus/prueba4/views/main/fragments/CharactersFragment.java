@@ -1,6 +1,7 @@
 package cl.anpetrus.prueba4.views.main.fragments;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -15,16 +16,19 @@ import android.view.ViewGroup;
 import cl.anpetrus.prueba4.CharactersQuery;
 import cl.anpetrus.prueba4.R;
 import cl.anpetrus.prueba4.adapters.CharactersAdapter;
+import cl.anpetrus.prueba4.listeners.ActionFragmentListener;
 import cl.anpetrus.prueba4.models.Character;
 import cl.anpetrus.prueba4.models.Wrapper;
 import cl.anpetrus.prueba4.models.WrapperData;
 import cl.anpetrus.prueba4.network.GetCharacters;
+import cl.anpetrus.prueba4.views.main.data.CharacterActivity;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CharactersFragment extends Fragment {
+public class CharactersFragment extends Fragment implements ActionFragmentListener {
 
+    private static CharactersFragment fragment;
     private CharactersAdapter charactersAdapter;
     private RecyclerView recyclerView;
     private boolean pendingRequest = false;
@@ -38,7 +42,7 @@ public class CharactersFragment extends Fragment {
     }
 
     public static CharactersFragment newInstance() {
-        CharactersFragment fragment = new CharactersFragment();
+        fragment = new CharactersFragment();
         return fragment;
     }
 
@@ -70,7 +74,7 @@ public class CharactersFragment extends Fragment {
                 .Builder
                 .create()
                 .withOffset(0)
-                .withLimit(20)
+                .withLimit(30)
                 .build();
         new BackgroundCharacters().execute(spider);
 
@@ -82,13 +86,13 @@ public class CharactersFragment extends Fragment {
                 int total = mLayoutManager.getItemCount();
                 Log.d("SCROLL", "position: " + position + " total: " + total);
                 if (totalElements > total) {
-                    if (total - 10 < position) {
+                    if (total - 15 < position) {
                         if (!pendingRequest) {
                             CharactersQuery spider = CharactersQuery
                                     .Builder
                                     .create()
                                     .withOffset(total)
-                                    .withLimit(20)
+                                    .withLimit(30)
                                     .build();
                             new BackgroundCharacters().execute(spider);
                         }
@@ -97,8 +101,13 @@ public class CharactersFragment extends Fragment {
                 }
             }
         });
+    }
 
-
+    @Override
+    public void clicked(Object object) {
+        Intent intent = new Intent(getContext(), CharacterActivity.class);
+        intent.putExtra(CharacterActivity.KEY_CHARACTER,(Character) object);
+        startActivity(intent);
     }
 
     private class BackgroundCharacters extends GetCharacters {
@@ -116,7 +125,7 @@ public class CharactersFragment extends Fragment {
                 WrapperData<Character> characterWrapperData = wrapper.getData();
                 totalElements = wrapper.getData().getTotal();
                 if (firstEjecution) {
-                    charactersAdapter = new CharactersAdapter(getContext(), characterWrapperData.getResults());
+                    charactersAdapter = new CharactersAdapter(getContext(), characterWrapperData.getResults(),fragment);
                     recyclerView.setAdapter(charactersAdapter);
                     firstEjecution = false;
                 } else {
