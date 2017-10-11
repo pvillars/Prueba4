@@ -49,11 +49,9 @@ public class ComicsAdapter extends RecyclerView.Adapter<ComicsAdapter.ViewHolder
 
         Comic comic = comics.get(position);
         holder.name.setText(comic.getTitle().toString());
-        if(comic.getDescription()!=null)
-        holder.description.setText(comic.getDescription().toString());
 
         Picasso.with(context)
-                .load(comic.getThumbnail().getImageUrl(MarvelImage.Size.LANDSCAPE_XLARGE))
+                .load(comic.getThumbnail().getImageUrl(MarvelImage.Size.PORTRAIT_UNCANNY))
                 .into(holder.thumbnail);
     }
 
@@ -64,13 +62,12 @@ public class ComicsAdapter extends RecyclerView.Adapter<ComicsAdapter.ViewHolder
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView name, description;
+        private TextView name;
         private ImageView thumbnail;
 
         public ViewHolder(View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.nameListTv);
-            description = itemView.findViewById(R.id.descriptionListTv);
             thumbnail = itemView.findViewById(R.id.imageListIv);
         }
     }

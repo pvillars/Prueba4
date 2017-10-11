@@ -4,7 +4,8 @@ package cl.anpetrus.prueba4.views.main.fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,7 +27,7 @@ public class ComicsFragment extends Fragment {
 
     private ComicsAdapter comicsAdapter;
     private RecyclerView recyclerView;
-    private LinearLayoutManager linearLayoutManager;
+    private GridLayoutManager mLayoutManager;
     private boolean pendingRequest = false;
     private boolean firstEjecution = true;
     private int totalElements = 0;
@@ -55,8 +56,10 @@ public class ComicsFragment extends Fragment {
         recyclerView = view.findViewById(R.id.comicsRv);
         recyclerView.setHasFixedSize(true);
 
-        linearLayoutManager = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(linearLayoutManager);
+        mLayoutManager = new GridLayoutManager(getContext(), 2);
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, GridSpacingItemDecoration.dpToPx(getResources(),4), true));
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
 
         CharactersQuery spider = CharactersQuery
                 .Builder
@@ -70,8 +73,8 @@ public class ComicsFragment extends Fragment {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                int position = linearLayoutManager.findLastVisibleItemPosition();
-                int total = linearLayoutManager.getItemCount();
+                int position = mLayoutManager.findLastVisibleItemPosition();
+                int total = mLayoutManager.getItemCount();
                 Log.d("SCROLL", "position: " + position + " total: " + total);
                 if (totalElements > total) {
                     if (total - 4 < position) {
