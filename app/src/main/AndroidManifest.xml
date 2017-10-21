@@ -13,13 +13,8 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".views.main.MainActivity"
-            android:label="@string/app_name"
+            android:label="MARVEL API (Prueba 4)"
             android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".views.main.data.EventActivity"
@@ -32,7 +27,22 @@
         <activity
             android:name=".views.main.data.CharacterActivity"
             android:label="@string/title_activity_character"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".views.main.data.ComicActivity"
+            android:label="@string/title_activity_comic"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".views.main.SplashActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label=""
+            android:theme="@style/FullscreenTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

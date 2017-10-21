@@ -36,10 +36,13 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
     }
 
     public void update(WrapperData<Event> eventWrapperData){
-        //characters.clear();
         events.addAll(eventWrapperData.getResults());
         notifyDataSetChanged();
+    }
 
+    public void clear(){
+        events.clear();
+        notifyDataSetChanged();
     }
 
     @Override

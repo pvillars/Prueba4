@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -35,6 +36,8 @@ public class EventsFragment extends Fragment implements ActionFragmentListener{
     private boolean pendingRequest = false;
     private boolean firstEjecution = true;
     private int totalElements = 0;
+
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     private static EventsFragment fragment;
 
@@ -70,6 +73,8 @@ public class EventsFragment extends Fragment implements ActionFragmentListener{
         totalElements = 0;
         firstEjecution = true;
 
+        swipeRefreshLayout = view.findViewById(R.id.reloadSrl);
+
         recyclerView = view.findViewById(R.id.eventsRv);
         recyclerView.setHasFixedSize(true);
 
@@ -78,13 +83,7 @@ public class EventsFragment extends Fragment implements ActionFragmentListener{
         recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, GridSpacingItemDecoration.dpToPx(getResources(),4), true));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        CharactersQuery spider = CharactersQuery
-                .Builder
-                .create()
-                .withOffset(0)
-                .withLimit(16)
-                .build();
-        new BackgroundEvents().execute(spider);
+        getData(0,16);
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -98,33 +97,48 @@ public class EventsFragment extends Fragment implements ActionFragmentListener{
                     if (total - 6 < position) {
                         if (!pendingRequest) {
                             Log.d("SCROLL", "LLAMNDO!!");
-                            CharactersQuery spider = CharactersQuery
-                                    .Builder
-                                    .create()
-                                    .withOffset(total)
-                                    .withLimit(16)
-                                    .build();
-                            new BackgroundEvents().execute(spider);
+                            getData(total,20);
                         }
 
                     }
                 }
             }
         });
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                eventsAdapter.clear();
+                getData(0,20);
+            }
+        });
+    }
+
+    private void getData(int start, int end) {
+        CharactersQuery spider = CharactersQuery
+                .Builder
+                .create()
+                .withOffset(start)
+                .withLimit(end)
+                .build();
+        new BackgroundEvents().execute(spider);
     }
 
     @Override
     public void clicked(Object object) {
+        swipeRefreshLayout.setRefreshing(false);
         Intent intent = new Intent(getContext(), EventActivity.class);
         intent.putExtra(EventActivity.KEY_EVENT,(Event) object);
         startActivity(intent);
 
     }
 
+
     private class BackgroundEvents extends GetEvents {
 
         @Override
         protected void onPreExecute() {
+            swipeRefreshLayout.setRefreshing(true);
             if (!firstEjecution)
                 pendingRequest = true;
         }
@@ -143,6 +157,7 @@ public class EventsFragment extends Fragment implements ActionFragmentListener{
                     pendingRequest = false;
                 }
             }
+            swipeRefreshLayout.setRefreshing(false);
         }
     }
 

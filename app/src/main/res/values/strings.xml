@@ -98,4 +98,9 @@
     <string name="title_activity_main2">ImageActivity</string>
     <string name="title_activity_image">ImageActivity</string>
     <string name="title_activity_character">CharacterActivity</string>
+    <string name="title_activity_comic">ComicActivity</string>
+
+    <string name="title_activity_splash">SplashActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>

@@ -1,10 +1,12 @@
 package cl.anpetrus.prueba4.models;
 
+import java.io.Serializable;
+
 /**
  * Created by USUARIO on 04-10-2017.
  */
 
-public class Comic {
+public class Comic implements Serializable {
 
     private long id;
     private String title,description;

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -35,6 +36,7 @@ public class CharactersFragment extends Fragment implements ActionFragmentListen
     private boolean firstEjecution = true;
     private int totalElements = 0;
     private GridLayoutManager mLayoutManager;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
 
     public CharactersFragment() {
@@ -62,6 +64,8 @@ public class CharactersFragment extends Fragment implements ActionFragmentListen
         totalElements = 0;
         firstEjecution = true;
 
+        swipeRefreshLayout = view.findViewById(R.id.reloadSrl);
+
         recyclerView = view.findViewById(R.id.charactersRv);
         recyclerView.setHasFixedSize(true);
 
@@ -70,13 +74,7 @@ public class CharactersFragment extends Fragment implements ActionFragmentListen
         recyclerView.addItemDecoration(new GridSpacingItemDecoration(3, GridSpacingItemDecoration.dpToPx(getResources(),1), true));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        CharactersQuery spider = CharactersQuery
-                .Builder
-                .create()
-                .withOffset(0)
-                .withLimit(30)
-                .build();
-        new BackgroundCharacters().execute(spider);
+        getData(0,30);
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -88,23 +86,36 @@ public class CharactersFragment extends Fragment implements ActionFragmentListen
                 if (totalElements > total) {
                     if (total - 15 < position) {
                         if (!pendingRequest) {
-                            CharactersQuery spider = CharactersQuery
-                                    .Builder
-                                    .create()
-                                    .withOffset(total)
-                                    .withLimit(30)
-                                    .build();
-                            new BackgroundCharacters().execute(spider);
+                            getData(total,30);
                         }
 
                     }
                 }
             }
         });
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                charactersAdapter.clear();
+                getData(0,30);
+            }
+        });
+    }
+
+    private void getData(int start, int end) {
+        CharactersQuery spider = CharactersQuery
+                .Builder
+                .create()
+                .withOffset(start)
+                .withLimit(end)
+                .build();
+        new BackgroundCharacters().execute(spider);
     }
 
     @Override
     public void clicked(Object object) {
+        swipeRefreshLayout.setRefreshing(false);
         Intent intent = new Intent(getContext(), CharacterActivity.class);
         intent.putExtra(CharacterActivity.KEY_CHARACTER,(Character) object);
         startActivity(intent);
@@ -114,6 +125,7 @@ public class CharactersFragment extends Fragment implements ActionFragmentListen
 
         @Override
         protected void onPreExecute() {
+            swipeRefreshLayout.setRefreshing(true);
             if (!firstEjecution)
                 pendingRequest = true;
 
@@ -132,9 +144,8 @@ public class CharactersFragment extends Fragment implements ActionFragmentListen
                     charactersAdapter.update(characterWrapperData);
                     pendingRequest = false;
                 }
-
-
             }
+            swipeRefreshLayout.setRefreshing(false);
         }
     }
 }
