@@ -3,6 +3,8 @@
     package="cl.anpetrus.prueba4">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -13,29 +15,35 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".views.main.MainActivity"
+            android:configChanges="keyboard|screenSize|orientation"
             android:label="MARVEL API (Prueba 4)"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
             android:name=".views.main.data.EventActivity"
+            android:configChanges="keyboard|screenSize|orientation"
             android:label="@string/title_activity_event"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".views.main.data.ImageActivity"
+            android:configChanges="keyboard|screenSize|orientation"
             android:label="@string/title_activity_image"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".views.main.data.CharacterActivity"
+            android:configChanges="keyboard|screenSize|orientation"
             android:label="@string/title_activity_character"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".views.main.data.ComicActivity"
+            android:configChanges="keyboard|screenSize|orientation"
             android:label="@string/title_activity_comic"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".views.main.SplashActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label=""
+            android:screenOrientation="landscape"
             android:theme="@style/FullscreenTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

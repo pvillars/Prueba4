@@ -6,13 +6,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+import java.util.Locale;
 
 import cl.anpetrus.prueba4.R;
+import cl.anpetrus.prueba4.Utils.UtilDate;
 import cl.anpetrus.prueba4.listeners.ActionFragmentListener;
 import cl.anpetrus.prueba4.models.Event;
 import cl.anpetrus.prueba4.models.MarvelImage;
@@ -35,12 +38,12 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
         this.actionFragmentListener = actionFragmentListener;
     }
 
-    public void update(WrapperData<Event> eventWrapperData){
+    public void update(WrapperData<Event> eventWrapperData) {
         events.addAll(eventWrapperData.getResults());
         notifyDataSetChanged();
     }
 
-    public void clear(){
+    public void clear() {
         events.clear();
         notifyDataSetChanged();
     }
@@ -55,10 +58,28 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
     public void onBindViewHolder(ViewHolder holder, final int position) {
 
         final Event event = events.get(position);
-        holder.name.setText(event.getTitle().toString());
-        if(event.getDescription()!=null) {
-            holder.description.setText(event.getDescription().toString());
+
+        String dateStr = "";
+
+        if (event.getStart() != null)
+            dateStr = new UtilDate(event.getStart(), "MMMM d, yyyy", Locale.ENGLISH).toString();
+        if (event.getStart() != null && event.getEnd() != null)
+            dateStr += " - ";
+        if (event.getEnd() != null)
+            dateStr += new UtilDate(event.getEnd(), "MMMM d, yyyy", Locale.ENGLISH).toString();
+
+        if(dateStr==null || dateStr.trim().equals("")){
+            holder.dates.setVisibility(View.GONE);
+            RelativeLayout.LayoutParams marginLayoutParams = (RelativeLayout.LayoutParams) holder.name.getLayoutParams();
+            marginLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+            holder.name.setLayoutParams(marginLayoutParams);
+        }else{
+            holder.dates.setText(dateStr);
         }
+
+        holder.name.setText(event.getTitle().toString());
+
+
         Picasso.with(context)
                 .load(event.getThumbnail().getImageUrl(MarvelImage.Size.LANDSCAPE_XLARGE))
                 .into(holder.thumbnail);
@@ -78,13 +99,13 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView name, description;
+        private TextView name, dates;
         private ImageView thumbnail;
 
         public ViewHolder(View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.nameListTv);
-            description = itemView.findViewById(R.id.descriptionListTv);
+            dates = itemView.findViewById(R.id.datesListTv);
             thumbnail = itemView.findViewById(R.id.imageListIv);
         }
     }

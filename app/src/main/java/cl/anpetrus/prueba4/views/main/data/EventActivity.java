@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.Date;
 import java.util.Locale;
 
 import cl.anpetrus.prueba4.R;
@@ -63,8 +64,11 @@ public class EventActivity extends AppCompatActivity {
         if (event.getEnd() != null)
             dateStr += new UtilDate(event.getEnd(), "MMMM d, yyyy", Locale.ENGLISH).toString();
 
-        date.setText(dateStr);
-
+        if(dateStr==null || dateStr.trim().equals("")){
+            date.setVisibility(View.GONE);
+        }else {
+            date.setText(dateStr);
+        }
         description.setText(event.getDescription());
 
         image.setOnClickListener(new View.OnClickListener() {
@@ -74,6 +78,13 @@ public class EventActivity extends AppCompatActivity {
                 Intent intent = new Intent(EventActivity.this, ImageActivity.class);
 
                 intent.putExtra(ImageActivity.KEY_URL, event.getThumbnail().getImageUrl(MarvelImage.Size.FULLSIZE));
+                String nameImage;
+                if(event.getTitle().trim().equals(""))
+                    nameImage ="Marvel "+new Date().getTime();
+                else
+                    nameImage = event.getTitle().trim();
+
+                intent.putExtra(ImageActivity.KEY_NAME_IMAGE,nameImage);
 
                 image.buildDrawingCache();
                 Bitmap imageBitmap = image.getDrawingCache();
