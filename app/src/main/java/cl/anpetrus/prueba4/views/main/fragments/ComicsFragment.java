@@ -1,6 +1,5 @@
 package cl.anpetrus.prueba4.views.main.fragments;
 
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import cl.anpetrus.prueba4.CharactersQuery;
 import cl.anpetrus.prueba4.R;
 import cl.anpetrus.prueba4.adapters.ComicsAdapter;
 import cl.anpetrus.prueba4.listeners.ActionFragmentListener;
@@ -22,11 +20,9 @@ import cl.anpetrus.prueba4.models.Comic;
 import cl.anpetrus.prueba4.models.Wrapper;
 import cl.anpetrus.prueba4.models.WrapperData;
 import cl.anpetrus.prueba4.network.GetComics;
+import cl.anpetrus.prueba4.utils.CharactersQuery;
 import cl.anpetrus.prueba4.views.main.data.ComicActivity;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class ComicsFragment extends Fragment implements ActionFragmentListener {
 
     private static ComicsFragment fragment;

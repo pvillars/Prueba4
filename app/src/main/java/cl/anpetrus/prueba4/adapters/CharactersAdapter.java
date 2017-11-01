@@ -55,8 +55,6 @@ public class CharactersAdapter extends RecyclerView.Adapter<CharactersAdapter.Vi
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-
-
         final Character character = characters.get(position);
         holder.name.setText(character.getName().toString());
 

@@ -17,7 +17,7 @@ import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import cl.anpetrus.prueba4.R;
-import cl.anpetrus.prueba4.Save;
+import cl.anpetrus.prueba4.utils.Save;
 
 public class ImageActivity extends AppCompatActivity {
 
@@ -47,17 +47,16 @@ public class ImageActivity extends AppCompatActivity {
                 .placeholder(new BitmapDrawable(getResources(), bitmap))
                 .into(imageView);
 
-        findViewById(R.id.backBnv).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.backBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
             }
         });
 
-        imageView.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.saveImageBnv).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 int MyVersion = Build.VERSION.SDK_INT;
                 if (MyVersion > Build.VERSION_CODES.LOLLIPOP_MR1) {
                     ActivityCompat.requestPermissions(ImageActivity.this,
@@ -67,6 +66,7 @@ public class ImageActivity extends AppCompatActivity {
                 }
             }
         });
+
     }
 
     @Override

@@ -1,6 +1,5 @@
 package cl.anpetrus.prueba4.views.main.fragments;
 
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import cl.anpetrus.prueba4.CharactersQuery;
 import cl.anpetrus.prueba4.R;
 import cl.anpetrus.prueba4.adapters.CharactersAdapter;
 import cl.anpetrus.prueba4.listeners.ActionFragmentListener;
@@ -22,11 +20,9 @@ import cl.anpetrus.prueba4.models.Character;
 import cl.anpetrus.prueba4.models.Wrapper;
 import cl.anpetrus.prueba4.models.WrapperData;
 import cl.anpetrus.prueba4.network.GetCharacters;
+import cl.anpetrus.prueba4.utils.CharactersQuery;
 import cl.anpetrus.prueba4.views.main.data.CharacterActivity;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class CharactersFragment extends Fragment implements ActionFragmentListener {
 
     private static CharactersFragment fragment;
@@ -71,10 +67,10 @@ public class CharactersFragment extends Fragment implements ActionFragmentListen
 
         mLayoutManager = new GridLayoutManager(getContext(), 3);
         recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.addItemDecoration(new GridSpacingItemDecoration(3, GridSpacingItemDecoration.dpToPx(getResources(),1), true));
+        recyclerView.addItemDecoration(new GridSpacingItemDecoration(3, GridSpacingItemDecoration.dpToPx(getResources(), 1), true));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        getData(0,30);
+        getData(0, 30);
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -86,7 +82,7 @@ public class CharactersFragment extends Fragment implements ActionFragmentListen
                 if (totalElements > total) {
                     if (total - 15 < position) {
                         if (!pendingRequest) {
-                            getData(total,30);
+                            getData(total, 30);
                         }
 
                     }
@@ -98,7 +94,7 @@ public class CharactersFragment extends Fragment implements ActionFragmentListen
             @Override
             public void onRefresh() {
                 charactersAdapter.clear();
-                getData(0,30);
+                getData(0, 30);
             }
         });
     }
@@ -117,7 +113,7 @@ public class CharactersFragment extends Fragment implements ActionFragmentListen
     public void clicked(Object object) {
         swipeRefreshLayout.setRefreshing(false);
         Intent intent = new Intent(getContext(), CharacterActivity.class);
-        intent.putExtra(CharacterActivity.KEY_CHARACTER,(Character) object);
+        intent.putExtra(CharacterActivity.KEY_CHARACTER, (Character) object);
         startActivity(intent);
     }
 
@@ -137,7 +133,7 @@ public class CharactersFragment extends Fragment implements ActionFragmentListen
                 WrapperData<Character> characterWrapperData = wrapper.getData();
                 totalElements = wrapper.getData().getTotal();
                 if (firstEjecution) {
-                    charactersAdapter = new CharactersAdapter(getContext(), characterWrapperData.getResults(),fragment);
+                    charactersAdapter = new CharactersAdapter(getContext(), characterWrapperData.getResults(), fragment);
                     recyclerView.setAdapter(charactersAdapter);
                     firstEjecution = false;
                 } else {

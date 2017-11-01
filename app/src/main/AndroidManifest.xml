@@ -42,7 +42,7 @@
         <activity
             android:name=".views.main.SplashActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label=""
+            android:label="Prueba 4"
             android:screenOrientation="landscape"
             android:theme="@style/FullscreenTheme">
             <intent-filter>

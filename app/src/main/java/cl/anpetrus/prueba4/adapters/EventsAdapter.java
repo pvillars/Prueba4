@@ -15,11 +15,11 @@ import java.util.List;
 import java.util.Locale;
 
 import cl.anpetrus.prueba4.R;
-import cl.anpetrus.prueba4.Utils.UtilDate;
 import cl.anpetrus.prueba4.listeners.ActionFragmentListener;
 import cl.anpetrus.prueba4.models.Event;
 import cl.anpetrus.prueba4.models.MarvelImage;
 import cl.anpetrus.prueba4.models.WrapperData;
+import cl.anpetrus.prueba4.utils.UtilDate;
 
 /**
  * Created by USUARIO on 02-10-2017.
@@ -78,7 +78,6 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
         }
 
         holder.name.setText(event.getTitle().toString());
-
 
         Picasso.with(context)
                 .load(event.getThumbnail().getImageUrl(MarvelImage.Size.LANDSCAPE_XLARGE))

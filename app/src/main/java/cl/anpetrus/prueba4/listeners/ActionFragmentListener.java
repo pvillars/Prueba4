@@ -6,5 +6,4 @@ package cl.anpetrus.prueba4.listeners;
 
 public interface ActionFragmentListener {
     void clicked(Object object);
-
 }

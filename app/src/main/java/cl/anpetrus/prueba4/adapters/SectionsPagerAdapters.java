@@ -12,10 +12,6 @@ import cl.anpetrus.prueba4.views.main.fragments.CharactersFragment;
 import cl.anpetrus.prueba4.views.main.fragments.ComicsFragment;
 import cl.anpetrus.prueba4.views.main.fragments.EventsFragment;
 
-/**
- * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
- * one of the sections/tabs/pages.
- */
 public class SectionsPagerAdapters extends FragmentPagerAdapter {
 
         public SectionsPagerAdapters(FragmentManager fm) {
@@ -37,7 +33,6 @@ public class SectionsPagerAdapters extends FragmentPagerAdapter {
 
         @Override
         public int getCount() {
-            // Show 3 total pages.
             return 3;
         }
 

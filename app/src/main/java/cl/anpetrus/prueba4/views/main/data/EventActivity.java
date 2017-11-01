@@ -5,8 +5,6 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -20,10 +18,10 @@ import java.util.Date;
 import java.util.Locale;
 
 import cl.anpetrus.prueba4.R;
-import cl.anpetrus.prueba4.Utils.UtilDate;
-import cl.anpetrus.prueba4.Utils.UtilImage;
 import cl.anpetrus.prueba4.models.Event;
 import cl.anpetrus.prueba4.models.MarvelImage;
+import cl.anpetrus.prueba4.utils.UtilDate;
+import cl.anpetrus.prueba4.utils.UtilImage;
 
 public class EventActivity extends AppCompatActivity {
 
@@ -31,7 +29,6 @@ public class EventActivity extends AppCompatActivity {
 
     private ImageView image;
     private TextView  description, date;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,8 +41,6 @@ public class EventActivity extends AppCompatActivity {
         final Event event = (Event) getIntent().getSerializableExtra(KEY_EVENT);
 
         getSupportActionBar().setTitle(event.getTitle());
-        //getSupportActionBar().setLogo(R.mipmap.ic_keyboard_backspace_white_24dp);
-
 
         image = (ImageView) findViewById(R.id.detailImageIv);
         date = (TextView) findViewById(R.id.eventDateTv);
@@ -74,44 +69,38 @@ public class EventActivity extends AppCompatActivity {
         image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                Intent intent = new Intent(EventActivity.this, ImageActivity.class);
-
-                intent.putExtra(ImageActivity.KEY_URL, event.getThumbnail().getImageUrl(MarvelImage.Size.FULLSIZE));
-                String nameImage;
-                if(event.getTitle().trim().equals(""))
-                    nameImage ="Marvel "+new Date().getTime();
-                else
-                    nameImage = event.getTitle().trim();
-
-                intent.putExtra(ImageActivity.KEY_NAME_IMAGE,nameImage);
-
-                image.buildDrawingCache();
-                Bitmap imageBitmap = image.getDrawingCache();
-                Bundle extras = new Bundle();
-                extras.putParcelable(ImageActivity.KEY_THUMBS_IMAGE, UtilImage.getResizedBitmap(imageBitmap, 100));
-                intent.putExtras(extras);
-
-                startActivity(intent);
+                viewCompleteImage(event);
             }
         });
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.fab).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                viewCompleteImage(event);
             }
         });
-
-
     }
 
-    /**
-     * Initializing collapsing toolbar
-     * Will show and hide the toolbar title on scroll
-     */
+    private void viewCompleteImage(Event event){
+        Intent intent = new Intent(EventActivity.this, ImageActivity.class);
+
+        intent.putExtra(ImageActivity.KEY_URL, event.getThumbnail().getImageUrl(MarvelImage.Size.FULLSIZE));
+        String nameImage;
+        if(event.getTitle().trim().equals(""))
+            nameImage ="Marvel "+new Date().getTime();
+        else
+            nameImage = event.getTitle().trim();
+
+        intent.putExtra(ImageActivity.KEY_NAME_IMAGE,nameImage);
+
+        image.buildDrawingCache();
+        Bitmap imageBitmap = image.getDrawingCache();
+        Bundle extras = new Bundle();
+        extras.putParcelable(ImageActivity.KEY_THUMBS_IMAGE, UtilImage.getResizedBitmap(imageBitmap, 50));
+        intent.putExtras(extras);
+        startActivity(intent);
+    }
+
     private void initCollapsingToolbar() {
         final CollapsingToolbarLayout collapsingToolbar =
                 (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);

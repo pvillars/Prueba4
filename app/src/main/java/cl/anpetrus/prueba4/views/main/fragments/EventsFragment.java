@@ -14,7 +14,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import cl.anpetrus.prueba4.CharactersQuery;
 import cl.anpetrus.prueba4.R;
 import cl.anpetrus.prueba4.adapters.EventsAdapter;
 import cl.anpetrus.prueba4.listeners.ActionFragmentListener;
@@ -22,16 +21,16 @@ import cl.anpetrus.prueba4.models.Event;
 import cl.anpetrus.prueba4.models.Wrapper;
 import cl.anpetrus.prueba4.models.WrapperData;
 import cl.anpetrus.prueba4.network.GetEvents;
+import cl.anpetrus.prueba4.utils.CharactersQuery;
 import cl.anpetrus.prueba4.views.main.data.EventActivity;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class EventsFragment extends Fragment implements ActionFragmentListener{
+public class EventsFragment extends Fragment implements ActionFragmentListener {
 
     private EventsAdapter eventsAdapter;
     private RecyclerView recyclerView;
-    // private LinearLayoutManager linearLayoutManager;
     private RecyclerView.LayoutManager mLayoutManager;
     private boolean pendingRequest = false;
     private boolean firstEjecution = true;
@@ -51,7 +50,7 @@ public class EventsFragment extends Fragment implements ActionFragmentListener{
     }
 
     public static EventsFragment getInstance() {
-        if(fragment == null){
+        if (fragment == null) {
             fragment = new EventsFragment();
         }
 
@@ -80,10 +79,10 @@ public class EventsFragment extends Fragment implements ActionFragmentListener{
 
         mLayoutManager = new GridLayoutManager(getContext(), 2);
         recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, GridSpacingItemDecoration.dpToPx(getResources(),4), true));
+        recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, GridSpacingItemDecoration.dpToPx(getResources(), 4), true));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        getData(0,16);
+        getData(0, 16);
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -97,7 +96,7 @@ public class EventsFragment extends Fragment implements ActionFragmentListener{
                     if (total - 6 < position) {
                         if (!pendingRequest) {
                             Log.d("SCROLL", "LLAMNDO!!");
-                            getData(total,20);
+                            getData(total, 20);
                         }
 
                     }
@@ -109,7 +108,7 @@ public class EventsFragment extends Fragment implements ActionFragmentListener{
             @Override
             public void onRefresh() {
                 eventsAdapter.clear();
-                getData(0,20);
+                getData(0, 20);
             }
         });
     }
@@ -128,7 +127,7 @@ public class EventsFragment extends Fragment implements ActionFragmentListener{
     public void clicked(Object object) {
         swipeRefreshLayout.setRefreshing(false);
         Intent intent = new Intent(getContext(), EventActivity.class);
-        intent.putExtra(EventActivity.KEY_EVENT,(Event) object);
+        intent.putExtra(EventActivity.KEY_EVENT, (Event) object);
         startActivity(intent);
 
     }

@@ -6,13 +6,13 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import cl.anpetrus.prueba4.Auth;
-import cl.anpetrus.prueba4.AuthHashGenerator;
-import cl.anpetrus.prueba4.CharactersQuery;
-import cl.anpetrus.prueba4.MarvelApiException;
-import cl.anpetrus.prueba4.TimeProvider;
 import cl.anpetrus.prueba4.models.Comic;
 import cl.anpetrus.prueba4.models.Wrapper;
+import cl.anpetrus.prueba4.utils.CharactersQuery;
+import cl.anpetrus.prueba4.utils.TimeProvider;
+import cl.anpetrus.prueba4.utils.auth.Auth;
+import cl.anpetrus.prueba4.utils.auth.AuthHashGenerator;
+import cl.anpetrus.prueba4.utils.auth.MarvelApiException;
 import retrofit2.Call;
 import retrofit2.Response;
 
